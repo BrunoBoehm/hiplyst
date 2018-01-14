@@ -2,15 +2,19 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import List from './List';
 import NewListForm from './NewListForm';
+import EditListForm from './EditListForm';
 
 class ListsContainer extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            lists: []
+            lists: [],
+            editingListId: null
         }
         this.addNewList = this.addNewList.bind(this)
         this.removeList = this.removeList.bind(this)
+        this.editList = this.editList.bind(this)
+        this.editListDone = this.editListDone.bind(this)
     }
 
     componentDidMount() {
@@ -47,11 +51,30 @@ class ListsContainer extends Component {
         .catch(error => console.log(error))
     }
 
+    editList(id) {
+        this.setState({
+            editingListId: id
+        })
+    }
+
+    editListDone(list) {
+        const lists = this.state.lists;
+        lists[list.id-1] = {id: list.id, title: list.title, excerpt: list.excerpt}
+        this.setState({
+            lists,
+            editingListId: null
+        })
+    }
+
     render() {
         return (
             <div className="lists-container">
                 {this.state.lists.map( list => {
-                    return (<List list={list} key={list.id} onRemoveList={this.removeList} />)
+                    if ( this.state.editingListId === list.id ) {
+                        return (<EditListForm list={list} key={list.id} onEditDone={this.editListDone} />)
+                    } else {
+                        return (<List list={list} key={list.id} onRemoveList={this.removeList} onEditList={this.editList} />)
+                    }
                 })}
 
                 <NewListForm onNewList={this.addNewList} />
