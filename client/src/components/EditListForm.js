@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 
 class EditListForm extends Component {
     constructor(props) {
@@ -19,15 +18,8 @@ class EditListForm extends Component {
 
     handleSubmit(e){
         e.preventDefault();
-        axios.put( '/api/v1/lists/' + this.state.id, { 
-            list: {
-                title: this.state.title, 
-                excerpt: this.state.excerpt
-            } 
-        })
-        .then(response => {console.log(response)})
-        .catch(error => console.log(error));
-        this.props.onEditDone(this.state)
+        const { id, title, excerpt } = this.state;
+        this.props.editList(id, title, excerpt);
     }
 
     render(){

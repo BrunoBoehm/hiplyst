@@ -14,7 +14,7 @@ class ListsContainer extends Component {
         this.addNewList = this.addNewList.bind(this)
         this.removeList = this.removeList.bind(this)
         this.editingList = this.editingList.bind(this)
-        this.editListDone = this.editListDone.bind(this)
+        this.editList = this.editList.bind(this)
     }
 
     componentDidMount() {
@@ -57,9 +57,18 @@ class ListsContainer extends Component {
         })
     }
 
-    editListDone(list) {
+    editList(id, title, excerpt) {
+        axios.put( '/api/v1/lists/' + id, { 
+            list: {
+                title, 
+                excerpt
+            } 
+        })
+        .then(response => {console.log(response)})
+        .catch(error => console.log(error));
+
         const lists = this.state.lists;
-        lists[list.id-1] = {id: list.id, title: list.title, excerpt: list.excerpt}
+        lists[id-1] = {id, title, excerpt}
         this.setState({
             lists,
             editingListId: null
@@ -71,7 +80,7 @@ class ListsContainer extends Component {
             <div className="lists-container">
                 {this.state.lists.map( list => {
                     if ( this.state.editingListId === list.id ) {
-                        return (<EditListForm list={list} key={list.id} onEditDone={this.editListDone} />)
+                        return (<EditListForm list={list} key={list.id} editList={this.editList} />)
                     } else {
                         return (<List list={list} key={list.id} onRemoveList={this.removeList} editingList={this.editingList} />)
                     }
