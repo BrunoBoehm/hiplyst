@@ -13,7 +13,7 @@ class ListsContainer extends Component {
         }
         this.addNewList = this.addNewList.bind(this)
         this.removeList = this.removeList.bind(this)
-        this.editList = this.editList.bind(this)
+        this.editingList = this.editingList.bind(this)
         this.editListDone = this.editListDone.bind(this)
     }
 
@@ -51,7 +51,7 @@ class ListsContainer extends Component {
         .catch(error => console.log(error))
     }
 
-    editList(id) {
+    editingList(id) {
         this.setState({
             editingListId: id
         })
@@ -73,7 +73,7 @@ class ListsContainer extends Component {
                     if ( this.state.editingListId === list.id ) {
                         return (<EditListForm list={list} key={list.id} onEditDone={this.editListDone} />)
                     } else {
-                        return (<List list={list} key={list.id} onRemoveList={this.removeList} onEditList={this.editList} />)
+                        return (<List list={list} key={list.id} onRemoveList={this.removeList} editingList={this.editingList} />)
                     }
                 })}
 
