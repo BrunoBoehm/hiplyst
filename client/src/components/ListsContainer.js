@@ -64,15 +64,16 @@ class ListsContainer extends Component {
                 excerpt
             } 
         })
-        .then(response => {console.log(response)})
-        .catch(error => console.log(error));
-
-        const lists = this.state.lists;
-        lists[id-1] = {id, title, excerpt}
-        this.setState({
-            lists,
-            editingListId: null
+        .then(response => {
+            console.log(response);
+            const lists = this.state.lists;
+            lists[id-1] = {id, title, excerpt}
+            this.setState(() => ({
+                lists, 
+                editingListId: null
+            }))
         })
+        .catch(error => console.log(error));
     }
 
     render() {
