@@ -8,12 +8,10 @@
     }
   },
   "dependencies": {
+    "react-scripts": "1.0.17",
     "axios": "^0.17.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0"
-  },
-  "devDependencies": {
-    "react-scripts": "1.0.17"
   },
   "scripts": {
     "start": "react-scripts start",
